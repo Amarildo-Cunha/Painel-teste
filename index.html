@@ -3,28 +3,34 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f1318">
-<title>Painel Teste</title>
+<meta name="theme-color" content="#000000">
+<title>PT Painel Teste — Petterson Tools</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#000000;--card:#161618;--line:#2a2a2d;--tx:#ffffff;--mut:#a0a0a5;--ac:#ffff00;--ac-hover:#fff2a8;--ac-ink:#000000;--ok:#36c96e;--warn:#ff9f1a;--bad:#ff5a5a;--info:#4da3ff}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,-apple-system,Roboto,sans-serif;padding-bottom:24px}
-header{position:sticky;top:0;z-index:5;background:var(--card);padding:10px 14px;border-bottom:1px solid var(--line)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px Inter,system-ui,-apple-system,Roboto,sans-serif;padding-bottom:24px}
+header{position:sticky;top:0;z-index:5;background:#0b0b0cf2;padding:10px 14px;border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.brand{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1.5px;color:var(--mut);margin-bottom:2px}
+.brand b{color:var(--ac)}
 .top{display:flex;align-items:center;gap:10px}
-h1{font-size:18px;margin:0;flex:1}
+h1{font-size:18px;margin:0;flex:1;font-weight:700}
 h1 small{font-size:12px;color:var(--mut);font-weight:400}
-.pill{font-size:12px;padding:3px 9px;border-radius:99px;background:#2a323e;color:var(--mut);white-space:nowrap}
+.pill{font-size:12px;padding:3px 9px;border-radius:99px;background:#2a2a2d;color:var(--mut);white-space:nowrap}
 .pill.ok{background:#173a26;color:var(--ok)}.pill.bad{background:#3d1b1b;color:var(--bad)}
 .st{font:12px ui-monospace,monospace;color:var(--mut);margin-top:6px;line-height:1.5}
 .st b.ok{color:var(--ok)}.st b.bad{color:var(--bad)}.st b.warn{color:var(--warn)}
 main{padding:12px;display:grid;gap:12px}
-.c{background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--line)}
+.c{background:var(--card);border-radius:8px;padding:14px;border:1px solid var(--line)}
 .c h2{font-size:12px;margin:0 0 10px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between}
-button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 14px;background:#2a323e;color:var(--tx);touch-action:manipulation}
+button{font:inherit;font-weight:600;border:0;border-radius:5px;padding:12px 14px;background:#2a2a2d;color:var(--tx);touch-action:manipulation}
 button:active{filter:brightness(1.3)}
-button.pri{background:var(--ac);color:var(--ac-ink)}button.bad{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:#06210f}
+button.pri{background:var(--ac);color:var(--ac-ink);font-weight:700}
+button.bad{background:var(--bad);color:#fff}
+button.ok{background:var(--ok);color:#06210f}
 button:disabled{opacity:.4}
 .row{display:flex;gap:8px;flex-wrap:wrap}.row>button{flex:1}
 .big{font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
@@ -33,28 +39,34 @@ button:disabled{opacity:.4}
 .step{display:flex;gap:6px}.step button{width:52px;padding:10px 0;font-size:20px}
 input[type=range]{width:100%;height:36px;accent-color:var(--ac);margin:4px 0 8px}
 .chips{display:flex;gap:6px;flex-wrap:wrap}.chips button{flex:1 0 auto;min-width:52px;padding:9px 6px;font-size:14px;background:#222a35}
-.alert{border-radius:10px;padding:10px 12px;font-size:14px;display:none}
-.alert.show{display:block}.alert.w{background:#3a2e10;color:#ffd77a}.alert.e{background:#3d1b1b;color:#ffb3b3}
+.alert{border-radius:8px;padding:10px 12px;font-size:14px;display:none}
+.alert.show{display:block}.alert.e{background:#3d1b1b;color:#ffb3b3}
 .auto{display:none;margin-top:12px}.auto.show{display:block}
 .fase{font-size:22px;font-weight:700;margin-bottom:6px}
-.bar{height:8px;background:#2a323e;border-radius:9px;overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .3s}
+.bar{height:8px;background:#2a2a2d;border-radius:9px;overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;background:var(--ac);width:0;transition:width .3s}
 .exp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.exp div{background:#11161d;border-radius:10px;padding:10px}
+.exp div{background:#0b0b0c;border-radius:8px;padding:10px}
 .exp b{display:block;font-size:26px;font-variant-numeric:tabular-nums}
 .exp small{color:var(--mut)}
 .seq{font-size:12px;color:var(--mut);margin-top:8px}
-.sw{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0}
-.sw input{width:48px;height:28px;accent-color:var(--ok)}
-select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;background:#2a323e;color:var(--tx);flex:1}
 .hint{font-size:13px;color:var(--mut);line-height:1.45}
 .off main .ctl{opacity:.45;pointer-events:none}
 #conn{min-width:120px}
+.aviso-bancada{background:#1a1a00;border:1px solid #333300;border-radius:8px;padding:12px;font-size:13px;color:var(--ac-hover);line-height:1.5;margin-bottom:4px}
+.aviso-bancada b{color:var(--ac)}
+footer{text-align:center;padding:24px 14px 12px;border-top:1px solid var(--line);margin:24px 12px 0}
+footer .ft-brand{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;color:var(--mut)}
+footer .ft-brand b{color:var(--ac)}
+footer .ft-info{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.6}
+footer a{color:var(--ac);text-decoration:none}
+footer a:hover{color:var(--ac-hover)}
 </style>
 </head>
 <body class="off">
 <header>
+  <div class="brand">PETTERSON <b>TOOLS</b></div>
   <div class="top">
-    <h1>Painel Teste <small id="ver">app v0.6</small></h1>
+    <h1>Painel Teste <small id="ver">v0.7</small></h1>
     <span id="pill" class="pill">desconectado</span>
   </div>
   <div class="row" style="margin-top:8px"><button id="conn" class="pri">Conectar</button></div>
@@ -62,9 +74,10 @@ select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;bac
 </header>
 
 <main>
-  <div id=”aCoo” class=”alert w”>O coordenador do caminhão está mandando o nível de combustível. Marque “Modo bancada” abaixo para não haver conflito.</div>
-  <div id=”aAck” class=”alert e”>Sem resposta na rede. Confira os cabos CAN e se o painel está alimentado.</div>
-  <div id=”aMcp” class=”alert e”>Placa de comunicação não respondeu. Confira a alimentação e os cabos.</div>
+  <div class="aviso-bancada">⚠️ <b>Teste com o painel fora do caminhão.</b> Desligue o painel da rede CAN do veículo antes de usar esta ferramenta. Conecte apenas o painel, a alimentação 24V e os cabos CAN ao equipamento.</div>
+
+  <div id="aAck" class="alert e">Sem resposta na rede. Confira os cabos CAN e se o painel está alimentado.</div>
+  <div id="aMcp" class="alert e">Placa de comunicação não respondeu. Confira a alimentação e os cabos.</div>
 
   <div class="c ctl">
     <h2>Autoteste dos ponteiros</h2>
@@ -90,18 +103,21 @@ select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;bac
 
   <div id="gauges"></div>
 
-  <div class="c ctl">
-    <h2>Opções</h2>
-    <label class="sw"><span>Modo bancada<br><span class="hint">Não transmite combustível nem marcha (para não conflitar com módulos do caminhão)</span></span><input type="checkbox" id="cCoo"></label>
-    <div class="row" style="margin-top:8px"><button id="bTx" class="bad">Parar transmissão</button></div>
-  </div>
-
   <div class="c">
     <h2>Instalar</h2>
-    <p class="hint" style="margin:0">No Chrome do Android: menu ⋮ → <b>Instalar app</b> (ou “Adicionar à tela inicial”). Depois disso o Painel Teste abre sem internet. Deixe o Bluetooth e a localização do celular ligados.</p>
+    <p class="hint" style="margin:0">No Chrome do Android: menu ⋮ → <b>Instalar app</b> (ou "Adicionar à tela inicial"). Depois disso o app abre sem internet. Deixe o Bluetooth e a localização do celular ligados.</p>
     <div class="row" style="margin-top:10px"><button id="bInst" style="display:none">Instalar agora</button></div>
   </div>
 </main>
+
+<footer>
+  <div class="ft-brand">PETTERSON <b>TOOLS</b></div>
+  <div class="ft-info">
+    Petterson Trucks · Joinville - SC<br>
+    <a href="tel:+554734655688">(47) 3465-5688</a> · <a href="https://wa.me/5547988277273">WhatsApp (47) 98827-7273</a><br>
+    <a href="https://pettersontrucks.com.br">pettersontrucks.com.br</a>
+  </div>
+</footer>
 
 <script>
 const SVC='6e7a0001-5c1d-4b6e-9a3f-2b1e0c0a7e01',CMD='6e7a0002-5c1d-4b6e-9a3f-2b1e0c0a7e01',STA='6e7a0003-5c1d-4b6e-9a3f-2b1e0c0a7e01';
@@ -134,7 +150,6 @@ G.forEach(g=>{
     r.value=v;mostra(g,v);envia(g.k,v,true)});
   d.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{r.value=b.dataset.v;mostra(g,+b.dataset.v);envia(g.k,b.dataset.v,true)});
 });
-// Fuel SA é fixo no padrão (27), sem seletor na interface
 function mostra(g,v){$('#v_'+g.k).innerHTML=`${Math.round(v)}<span>${g.un}</span>`}
 
 // ---------- fila de escrita BLE (uma operação GATT por vez) ----------
@@ -150,13 +165,13 @@ $('#conn').onclick=async()=>{
   if(dev&&dev.gatt.connected){querDesc=true;dev.gatt.disconnect();return}
   if(!navigator.bluetooth){alert('Este navegador não suporta Bluetooth. Use o Chrome do Android.');return}
   try{
-    dev=await navigator.bluetooth.requestDevice({filters:[{services:[SVC]}]});
+    dev=await navigator.bluetooth.requestDevice({filters:[{services:[SVC]},{namePrefix:'PT '},{namePrefix:'Painel'}]});
     dev.addEventListener('gattserverdisconnected',caiu);
     await liga();
   }catch(e){if(e.name!=='NotFoundError')status('Erro: '+e.message)}
 };
 async function liga(){
-  status('Conectando a '+(dev.name||'equipamento')+'…');
+  status('Conectando…');
   const srv=await dev.gatt.connect();
   const s=await srv.getPrimaryService(SVC);
   cCmd=await s.getCharacteristic(CMD);cSta=await s.getCharacteristic(STA);
@@ -187,20 +202,16 @@ async function le(){
 }
 
 function atualiza(){
-  $('#ver').textContent='app v0.6 · fw '+st.v;
+  $('#ver').textContent='v0.7 · fw '+st.v;
   const pn=st.pn<0?'<b class="bad">não detectado</b>':st.pn<3?'<b class="ok">OK</b>':`<b class="warn">sem resposta há ${st.pn}s</b>`;
-  status(`Placa <b class="${st.m?'ok':'bad'}">${st.m?'OK':'FALHA'}</b> · Painel ${pn} · Envio ${st.tx?st.n+' msgs':'<b class="warn">parado</b>'}${st.d?` · perdidos ${st.d}`:''} · Recebidos ${st.rx}`);
-  $('#aCoo').classList.toggle('show',!!st.cf&&!st.coo);
+  status(`Placa <b class="${st.m?'ok':'bad'}">${st.m?'OK':'FALHA'}</b> · Painel ${pn} · Envio ${st.tx?st.n+' msgs':'<b class="warn">parado</b>'}${st.d?` · perdidos ${st.d}`:''}`);
   $('#aAck').classList.toggle('show',st.tec>127);
   $('#aMcp').classList.toggle('show',!st.m);
   G.forEach(g=>{const r=$('#r_'+g.k);if(document.activeElement!==r&&!pend.has(g.k)){r.value=st[g.k];mostra(g,st[g.k])}});
   $('#bOn').className=st.eng?'ok':'';$('#bOff').className=st.eng?'':'bad';
-  $('#cCoo').checked=!!st.coo;
-  // SA do combustível fixo, sem controle na interface
-  $('#bTx').textContent=st.tx?'Parar transmissão':'Retomar transmissão';$('#bTx').className=st.tx?'bad':'ok';
   const rodando=st.a>=0;
   $('#auto').classList.toggle('show',rodando);
-  $('#bAuto').textContent=rodando?'Parar autoteste':'Iniciar autoteste';$('#bAuto').className=rodando?'bad':'pri';
+  $('#bAuto').textContent=rodando?'Desligar autoteste':'Iniciar autoteste';$('#bAuto').className=rodando?'bad':'pri';
   document.querySelectorAll('#gauges .ctl').forEach(e=>e.style.opacity=rodando?.45:'');
   if(rodando){
     $('#fase').textContent=FASES[st.a]||'—';
@@ -216,8 +227,6 @@ function pill(t,c){const p=$('#pill');p.textContent=t;p.className='pill '+c}
 $('#bAuto').onclick=()=>envia('auto',st&&st.a>=0?0:1,true);
 $('#bOn').onclick=()=>envia('eng',1,true);
 $('#bOff').onclick=()=>envia('eng',0,true);
-$('#cCoo').onchange=e=>envia('coo',e.target.checked?1:0,true);
-$('#bTx').onclick=()=>envia('tx',st&&st.tx?0:1,true);
 
 // ---------- PWA ----------
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
