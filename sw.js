@@ -1,6 +1,6 @@
 // Painel Teste — service worker: guarda o app no celular para abrir sem internet.
 // Ao publicar uma versão nova do app, troque o nome do cache.
-const CACHE = 'painel-teste-v0.6';
+const CACHE = 'painel-teste-v0.6.1';
 const ARQS = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', e => {

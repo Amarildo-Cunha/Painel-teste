@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <style>
-:root{--bg:#0f1318;--card:#1a2029;--line:#2a323e;--tx:#e8ecf1;--mut:#8c97a6;--ac:#2f9bff;--ok:#36c96e;--warn:#f2b233;--bad:#ff5a5a}
+:root{--bg:#000000;--card:#161618;--line:#2a2a2d;--tx:#ffffff;--mut:#a0a0a5;--ac:#ffff00;--ac-hover:#fff2a8;--ac-ink:#000000;--ok:#36c96e;--warn:#ff9f1a;--bad:#ff5a5a;--info:#4da3ff}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,-apple-system,Roboto,sans-serif;padding-bottom:24px}
 header{position:sticky;top:0;z-index:5;background:var(--card);padding:10px 14px;border-bottom:1px solid var(--line)}
@@ -24,7 +24,7 @@ main{padding:12px;display:grid;gap:12px}
 .c h2{font-size:12px;margin:0 0 10px;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;display:flex;justify-content:space-between}
 button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px 14px;background:#2a323e;color:var(--tx);touch-action:manipulation}
 button:active{filter:brightness(1.3)}
-button.pri{background:var(--ac);color:#fff}button.bad{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:#06210f}
+button.pri{background:var(--ac);color:var(--ac-ink)}button.bad{background:var(--bad);color:#fff}button.ok{background:var(--ok);color:#06210f}
 button:disabled{opacity:.4}
 .row{display:flex;gap:8px;flex-wrap:wrap}.row>button{flex:1}
 .big{font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
@@ -46,8 +46,6 @@ input[type=range]{width:100%;height:36px;accent-color:var(--ac);margin:4px 0 8px
 .sw{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0}
 .sw input{width:48px;height:28px;accent-color:var(--ok)}
 select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;background:#2a323e;color:var(--tx);flex:1}
-.fsa{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
-.scan{font-size:16px;font-weight:700;color:var(--warn);margin-top:8px}
 .hint{font-size:13px;color:var(--mut);line-height:1.45}
 .off main .ctl{opacity:.45;pointer-events:none}
 #conn{min-width:120px}
@@ -60,13 +58,13 @@ select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;bac
     <span id="pill" class="pill">desconectado</span>
   </div>
   <div class="row" style="margin-top:8px"><button id="conn" class="pri">Conectar</button></div>
-  <div id="st" class="st">Ligue o ESP32 e toque em Conectar.</div>
+  <div id="st" class="st">Ligue o equipamento e toque em Conectar.</div>
 </header>
 
 <main>
-  <div id="aCoo" class="alert w">O COO está mandando o nível de combustível (FEFC SA 27). Marque “COO na bancada” abaixo para não haver conflito — o ponteiro de combustível fica com o COO.</div>
-  <div id="aAck" class="alert e">Sem ACK na rede (TEC alto). Confira CAN-H/CAN-L, o terminador de 120 Ω e se o painel está alimentado.</div>
-  <div id="aMcp" class="alert e">MCP2515 não respondeu. Confira a alimentação e o SPI da placa.</div>
+  <div id=”aCoo” class=”alert w”>O coordenador do caminhão está mandando o nível de combustível. Marque “Modo bancada” abaixo para não haver conflito.</div>
+  <div id=”aAck” class=”alert e”>Sem resposta na rede. Confira os cabos CAN e se o painel está alimentado.</div>
+  <div id=”aMcp” class=”alert e”>Placa de comunicação não respondeu. Confira a alimentação e os cabos.</div>
 
   <div class="c ctl">
     <h2>Autoteste dos ponteiros</h2>
@@ -94,7 +92,7 @@ select{font:inherit;font-weight:600;border:0;border-radius:10px;padding:12px;bac
 
   <div class="c ctl">
     <h2>Opções</h2>
-    <label class="sw"><span>COO na bancada<br><span class="hint">Não transmite combustível (SA 27) nem marcha (SA 03)</span></span><input type="checkbox" id="cCoo"></label>
+    <label class="sw"><span>Modo bancada<br><span class="hint">Não transmite combustível nem marcha (para não conflitar com módulos do caminhão)</span></span><input type="checkbox" id="cCoo"></label>
     <div class="row" style="margin-top:8px"><button id="bTx" class="bad">Parar transmissão</button></div>
   </div>
 
@@ -136,14 +134,7 @@ G.forEach(g=>{
     r.value=v;mostra(g,v);envia(g.k,v,true)});
   d.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{r.value=b.dataset.v;mostra(g,+b.dataset.v);envia(g.k,b.dataset.v,true)});
 });
-const SAS=[[0x27,'27 – COO (coordenador)'],[0x21,'21 – Carroceria'],[0x00,'00 – Motor'],[0x03,'03 – Câmbio'],[0xEE,'EE – Tacógrafo'],[0x17,'17 – Painel'],[0x1E,'1E'],[0x28,'28'],[0x31,'31'],[0x33,'33'],[0x47,'47'],[0x4A,'4A']];
-$('#r_fuel').closest('.c').insertAdjacentHTML('beforeend',`<div class="fsa">
-  <div class="hint" style="margin-bottom:6px">Quem manda o combustível (FEFC) — SA de origem</div>
-  <div class="row"><select id="fsa">${SAS.map(([v,t])=>`<option value="${v}">${t}</option>`).join('')}</select><button id="bScan">Procurar SA</button></div>
-  <div id="scanMsg" class="scan" style="display:none"></div>
-  <p class="hint" style="margin:8px 0 0">Para procurar: ponha o combustível em 100 % (ou 0 % se o ponteiro já estiver cheio) e toque em Procurar. Cada SA fica 10 s; quando o ponteiro mexer, toque em Parar — o SA fica selecionado (volta para 27 se reiniciar o ESP32). O ponteiro de combustível costuma ser amortecido: se não mexer, desligue e ligue o painel com o SA escolhido.</p></div>`);
-$('#fsa').onchange=e=>envia('fsa',e.target.value,true);
-$('#bScan').onclick=()=>envia('fscan',st&&st.fs?0:1,true);
+// Fuel SA é fixo no padrão (27), sem seletor na interface
 function mostra(g,v){$('#v_'+g.k).innerHTML=`${Math.round(v)}<span>${g.un}</span>`}
 
 // ---------- fila de escrita BLE (uma operação GATT por vez) ----------
@@ -157,7 +148,7 @@ function gatt(fn){fila=fila.then(fn).catch(e=>console.warn(e));return fila}
 // ---------- conexão ----------
 $('#conn').onclick=async()=>{
   if(dev&&dev.gatt.connected){querDesc=true;dev.gatt.disconnect();return}
-  if(!navigator.bluetooth){alert('Este navegador não tem Web Bluetooth. Use o Chrome do Android.');return}
+  if(!navigator.bluetooth){alert('Este navegador não suporta Bluetooth. Use o Chrome do Android.');return}
   try{
     dev=await navigator.bluetooth.requestDevice({filters:[{services:[SVC]}]});
     dev.addEventListener('gattserverdisconnected',caiu);
@@ -165,7 +156,7 @@ $('#conn').onclick=async()=>{
   }catch(e){if(e.name!=='NotFoundError')status('Erro: '+e.message)}
 };
 async function liga(){
-  status('Conectando a '+(dev.name||'ESP32')+'…');
+  status('Conectando a '+(dev.name||'equipamento')+'…');
   const srv=await dev.gatt.connect();
   const s=await srv.getPrimaryService(SVC);
   cCmd=await s.getCharacteristic(CMD);cSta=await s.getCharacteristic(STA);
@@ -196,19 +187,16 @@ async function le(){
 }
 
 function atualiza(){
-  $('#ver').textContent='app v0.6 · ESP32 '+st.v;
-  const pn=st.pn<0?'<b class="bad">não visto</b>':st.pn<3?'<b class="ok">OK</b>':`<b class="warn">mudo há ${st.pn}s</b>`;
-  status(`MCP <b class="${st.m?'ok':'bad'}">${st.m?'OK':'FALHA'}</b> · Painel (SA 17) ${pn} · TX ${st.tx?st.n:'<b class="warn">parado</b>'}${st.d?` · perdidos ${st.d}`:''} · TEC ${st.tec} · RX ${st.rx}`);
+  $('#ver').textContent='app v0.6 · fw '+st.v;
+  const pn=st.pn<0?'<b class="bad">não detectado</b>':st.pn<3?'<b class="ok">OK</b>':`<b class="warn">sem resposta há ${st.pn}s</b>`;
+  status(`Placa <b class="${st.m?'ok':'bad'}">${st.m?'OK':'FALHA'}</b> · Painel ${pn} · Envio ${st.tx?st.n+' msgs':'<b class="warn">parado</b>'}${st.d?` · perdidos ${st.d}`:''} · Recebidos ${st.rx}`);
   $('#aCoo').classList.toggle('show',!!st.cf&&!st.coo);
   $('#aAck').classList.toggle('show',st.tec>127);
   $('#aMcp').classList.toggle('show',!st.m);
   G.forEach(g=>{const r=$('#r_'+g.k);if(document.activeElement!==r&&!pend.has(g.k)){r.value=st[g.k];mostra(g,st[g.k])}});
   $('#bOn').className=st.eng?'ok':'';$('#bOff').className=st.eng?'':'bad';
   $('#cCoo').checked=!!st.coo;
-  if(document.activeElement!==$('#fsa'))$('#fsa').value=st.fsa;
-  $('#bScan').textContent=st.fs?'Parar':'Procurar SA';$('#bScan').className=st.fs?'bad':'';
-  const sm=$('#scanMsg');sm.style.display=st.fs?'':'none';
-  if(st.fs)sm.textContent=`Testando SA ${st.fsa.toString(16).toUpperCase().padStart(2,'0')} — próximo em ${st.fst}s`;
+  // SA do combustível fixo, sem controle na interface
   $('#bTx').textContent=st.tx?'Parar transmissão':'Retomar transmissão';$('#bTx').className=st.tx?'bad':'ok';
   const rodando=st.a>=0;
   $('#auto').classList.toggle('show',rodando);
@@ -236,7 +224,7 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 let instEvt=null;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();instEvt=e;$('#bInst').style.display=''});
 $('#bInst').onclick=async()=>{if(!instEvt)return;instEvt.prompt();await instEvt.userChoice;instEvt=null;$('#bInst').style.display='none'};
-if(!navigator.bluetooth)status('<b class="bad">Este navegador não tem Web Bluetooth.</b> Abra no Chrome do Android.');
+if(!navigator.bluetooth)status('<b class="bad">Este navegador não suporta Bluetooth.</b> Abra no Chrome do Android.');
 </script>
 </body>
 </html>
